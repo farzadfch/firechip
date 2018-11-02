@@ -16,3 +16,6 @@
 [submodule "boom"]
 	path = boom
 	url = https://github.com/ucb-bar/riscv-boom.git
+[submodule "nvidia-dla-blocks"]
+	path = nvidia-dla-blocks
+	url = https://github.com/farzadfch/nvidia-dla-blocks-firesim.git
