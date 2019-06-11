@@ -53,6 +53,18 @@ void bw_read_l1(volatile uint64_t *values, int itr)
   }
 }
 
+void bw_write(volatile uint64_t *values, int itr, int wss)
+{
+  for (int j = 0; j < itr; j++) {
+    for (int i = 0; i < wss; i = i + 2 * BLK_SZ) {
+      values[i] = 0xaa;
+      values[i + BLK_SZ] = 0xaa;
+      //values[i + 2 * BLK_SZ] = 0xaa;
+      //values[i + 3 * BLK_SZ] = 0xaa;
+    }
+  }
+}
+
 void thread_entry(int cid, int nc)
 {
   register uint64_t cycle1_reg;
@@ -74,7 +86,8 @@ void thread_entry(int cid, int nc)
       bw_read(values2, 1, WSS_MAX);
       break;
     case 3:
-      bw_read_l1(values3, 1);
+      bw_write(values3, 1, WSS_MAX);
+      //bw_read_l1(values3, 1);
       break;
   }
 
@@ -100,7 +113,8 @@ void thread_entry(int cid, int nc)
       break;
     case 3:
       cycle1_reg = rdcycle();
-      bw_read_l1(values3, 500);
+      bw_write(values3, 1, WSS_MAX);
+      //bw_read_l1(values3, 100);
       cycle2_reg = rdcycle();
       break;
   }
