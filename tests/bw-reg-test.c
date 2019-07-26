@@ -15,18 +15,18 @@ volatile uint64_t values[WSS_MAX];
 
 int main(void)
 {
-  reg_write32(WINDOW_SIZE, 200-1);
+  reg_write32(WINDOW_SIZE, 400-1);
   reg_write32(MAX(0), 2);
   reg_write32(DOMAIN_ID(0), 0);
   reg_write32(ENABLE_MASTERS, 1 << 0);
-  reg_write32(ENABLE_BW, 1 | 1 << 1);
+  reg_write32(ENABLE_BW, 1 | 1 << 1 | 1 << 2);
   asm volatile ("fence");
 
-  for (int i = 0; i < WSS_MAX / 8; i = i + 8)
-    values[i];
+  //for (int i = 0; i < WSS_MAX / 8; i = i + 8)
+  //  values[i];
 
   for (int j = 0; j < 1; j++)
-    for (int i = 0; i < WSS_MAX /*50 * 8*/; i = i + 8) {
+    for (int i = 0; i < /*WSS_MAX */50 * 8; i = i + 8) {
       values[i] = 0xaa;
     }
   return 0;
