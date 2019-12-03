@@ -10,6 +10,7 @@
 #define MAX_WR(i) (BW_REG_BASE + (3+N+i)*0x4)
 #define ENABLE_MASTERS (BW_REG_BASE + (3+2*N)*0x4)
 #define DOMAIN_ID(i) (BW_REG_BASE + (4+2*N+i)*0x4)
+#define PERF (BW_REG_BASE + (4+3*N)*0x4)
 
 
 #define WSS_MAX (16 * 1024 / 8 * 4)
@@ -24,6 +25,7 @@ int main(void)
   reg_write32(ENABLE_MASTERS, 1 << 0);
   reg_write32(BW_SETTINGS, 3);
   reg_write32(ENABLE_BW, 1);
+  reg_write32(PERF, 1 << 24 | 1000-1);
   asm volatile ("fence");
 
   for (int i = 0; i < WSS_MAX / 8; i = i + 8)
