@@ -3,7 +3,7 @@ OBJDUMP=riscv64-unknown-elf-objdump
 CFLAGS=-mcmodel=medany -std=gnu99 -O2 -fno-common -fno-builtin-printf -Wall
 LDFLAGS=-static -nostdlib -nostartfiles -lgcc
 
-PROGRAMS = pwm blkdev accum charcount nic-loopback pingd big-blkdev bw-reg-test bandwidth bandwidth2 bandwidth3
+PROGRAMS = pwm blkdev accum charcount nic-loopback pingd big-blkdev bw-reg-test bw-reg-test-mc bandwidth bandwidth2 bandwidth3
 
 default: $(addsuffix .riscv,$(PROGRAMS))
 
