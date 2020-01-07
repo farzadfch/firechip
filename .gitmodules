@@ -3,7 +3,7 @@
 	url = https://github.com/farzadfch/rocket-chip.git
 [submodule "testchipip"]
 	path = testchipip
-	url = https://github.com/ucb-bar/testchipip.git
+	url = https://github.com/farzadfch/testchipip.git
 [submodule "icenet"]
 	path = icenet
 	url = https://github.com/firesim/icenet.git
