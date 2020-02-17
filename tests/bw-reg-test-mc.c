@@ -42,7 +42,7 @@ void thread_entry(int cid, int nc)
   }
 
   if (cid == SETTINGS_CORE) {
-    reg_write32(PERF, 1 << 24 | 2130-1);
+    //reg_write32(PERF, 1 << 24 | 2130-1);
     reg_write32(WINDOW_SIZE, 213-1);
     reg_write32(MAX(0), 1);
     reg_write32(MAX_WR(0), 213);
@@ -52,14 +52,15 @@ void thread_entry(int cid, int nc)
     reg_write32(DOMAIN_ID(3), 0);
     reg_write32(ENABLE_MASTERS, 0xf);
     reg_write32(BW_SETTINGS, 3);
-    reg_write32(ENABLE_BW, 1);
+    //reg_write32(ENABLE_BW, 1);
     asm volatile ("fence");
   }
 
   barrier(N);
 
-  for (int i = 0; i < WSS_MAX / 8; i = i + 8)
-    values[i];
+  for (int j = 0; j < 2; j++)
+    for (int i = 0; i < WSS_MAX; i = i + 8)
+      values[i];
 
   barrier(N);
   exit(0);
