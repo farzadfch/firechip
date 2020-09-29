@@ -20,7 +20,10 @@ volatile uint64_t values1[WSS_MAX];
 volatile uint64_t values2[WSS_MAX];
 volatile uint64_t values3[WSS_MAX];
 
-#define SETTINGS_CORE 0
+uint64_t cycle1[N];
+uint64_t cycle2[N];
+
+#define MASTER_CORE 0
 
 void thread_entry(int cid, int nc)
 {
@@ -42,7 +45,7 @@ void thread_entry(int cid, int nc)
       break;
   }
 
-  if (cid == SETTINGS_CORE) {
+  if (cid == MASTER_CORE) {
     reg_write32(WINDOW_SIZE, 213-1);
     reg_write32(MAX(0), 1);
     reg_write32(MAX_WR(0), 213);
@@ -61,9 +64,22 @@ void thread_entry(int cid, int nc)
 
   barrier(N);
 
+  register uint64_t cycle1_reg = rdcycle();
+
   for (int j = 0; j < 2; j++)
     for (int i = 0; i < WSS_MAX; i = i + 8)
       values[i];
+
+  cycle2[cid] = rdcycle();
+  cycle1[cid] = cycle1_reg;
+
+  barrier(N);
+
+  if (cid == MASTER_CORE) {
+    for (int i = 0; i < N; i++) {
+      printf("C%d: cycle1: %lu, cycle2: %lu, diff: %lu\n", i, cycle1[i], cycle2[i], cycle2[i] - cycle1[i]);
+    }
+  }
 
   barrier(N);
   exit(0);
