@@ -47,7 +47,7 @@ void thread_entry(int cid, int nc)
   }
 
   if (cid == MASTER_CORE) {
-    reg_write32(WINDOW_SIZE, 18-1);
+    reg_write32(WINDOW_SIZE, 10-1);
     reg_write32(MAX(0), 1);
     //reg_write32(MAX_WR(0), 213);
     reg_write32(DOMAIN_ID(0), 0);
@@ -58,13 +58,13 @@ void thread_entry(int cid, int nc)
     reg_write32(BW_SETTINGS, 1);
     //reg_write32(PERF_PERIOD, 1000-1);
     //reg_write32(ENABLE_PERF, 1);
+    reg_write32(ENABLE_BW, 1);
     asm volatile ("fence");
   }
 
   barrier(N);
 
   if (cid == MASTER_CORE) {
-    reg_write32(ENABLE_BW, 1);
     reg_write32(ENABLE_PRINT_LATENCY, 1);
     asm volatile ("fence");
   }
@@ -72,6 +72,10 @@ void thread_entry(int cid, int nc)
   // warm up the cache
   for (int i = 0; i < WSS_MAX; i = i + 8)
     values[i];
+
+  // wait for 1000 cycles
+  uint64_t cy1 = rdcycle();
+  while (rdcycle() < cy1 + 1000);
 
   uint64_t cycle1_reg = rdcycle();
 
