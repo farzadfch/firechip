@@ -58,7 +58,7 @@ void thread_entry(int cid, int nc)
     reg_write32(BW_SETTINGS, 1);
     //reg_write32(PERF_PERIOD, 1000-1);
     //reg_write32(ENABLE_PERF, 1);
-    reg_write32(ENABLE_BW, 1);
+    //reg_write32(ENABLE_BW, 1);
     asm volatile ("fence");
   }
 
@@ -73,9 +73,9 @@ void thread_entry(int cid, int nc)
   for (int i = 0; i < WSS_MAX; i = i + 8)
     values[i];
 
-  // wait for 1000 cycles
+  // wait for 3000 cycles
   uint64_t cy1 = rdcycle();
-  while (rdcycle() < cy1 + 1000);
+  while (rdcycle() < cy1 + 3000);
 
   uint64_t cycle1_reg = rdcycle();
 
